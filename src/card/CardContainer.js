@@ -12,7 +12,7 @@ import Card from "./Card";
 // Redux
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { CardActions, CardSelectors, CardOperations } from "./ducks";
+import { CardActions, CardSelectors } from "./ducks";
 
 const mapStateToProps = ({ card }) => ({
   card,
@@ -25,7 +25,7 @@ const actions = {
   setCards: CardActions.setCards,
   nextCard: CardActions.nextCard,
   prevCard: CardActions.prevCard,
-  getCardsets: CardOperations.getCardsets
+  getCardsets: CardActions.getCardsets
 };
 
 const enhance = compose(
@@ -81,7 +81,7 @@ function CardContainer(props) {
     fetch("http://localhost:4000/cardsets")
       .then(response => response.json())
       .then(cardsets => props.getCardsets(cardsets));
-  });
+  }, []);
 
   const handleSetup = () => {
     props.setCards("colors");

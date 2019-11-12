@@ -1,4 +1,5 @@
 import * as select from "./selectors";
+import * as actions from "./actions";
 
 export const setCards = (state, action) => {
   return {
@@ -132,7 +133,7 @@ export const swapSides = (state, action) => {
 };
 
 export const getCardsets = cardsets => {
-  for (let i = 0; cardsets.length; i++) {
-    console.log(cardsets[i]);
-  }
+        return dispatch => {
+            dispatch(actions.getCardsets(cardsets))
+        }
 };
