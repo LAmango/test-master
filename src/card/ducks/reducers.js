@@ -4,15 +4,8 @@ import * as ops from "./operations";
 export const initialState = {
   currentCard: { index: 0, id: 0, front: "", back: "" },
   currentCardSet: null,
-  cards: {
-    colors: [
-      { id: 1, front: "blue", back: "a color" },
-      { id: 2, front: "red", back: "a color" },
-      { id: 3, front: "black", back: "a color" },
-      { id: 4, front: "purple", back: "a color" }
-    ]
-  },
-  allCardSet: ["colors"]
+  cards: {},
+  allCardSet: []
 };
 
 export function card(state = initialState, action) {
@@ -31,6 +24,11 @@ export function card(state = initialState, action) {
       return ops.swapSides(state, action.payload);
     case types.DELETE_CARD_ITEM:
       return ops.deleteCardItem(state, action.payload);
+    case types.GET_CARDSETS:
+      return {
+        ...state,
+        cards: action.payload
+      };
     default:
       return state;
   }

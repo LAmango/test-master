@@ -44,3 +44,10 @@ export function swapSides(itemId, front, back) {
     payload: { itemId: itemId, front: front, back: back }
   };
 }
+
+export function getCardsets(cardsets) {
+  return {
+    type: types.GET_CARDSETS,
+    payload: cardsets
+  };
+}

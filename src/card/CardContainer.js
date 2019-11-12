@@ -12,7 +12,7 @@ import Card from "./Card";
 // Redux
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { CardActions, CardSelectors } from "./ducks";
+import { CardActions, CardSelectors, CardOperations } from "./ducks";
 
 const mapStateToProps = ({ card }) => ({
   card,
@@ -24,7 +24,8 @@ const mapStateToProps = ({ card }) => ({
 const actions = {
   setCards: CardActions.setCards,
   nextCard: CardActions.nextCard,
-  prevCard: CardActions.prevCard
+  prevCard: CardActions.prevCard,
+  getCardsets: CardOperations.getCardsets
 };
 
 const enhance = compose(
@@ -74,6 +75,12 @@ function CardContainer(props) {
     opacity: flipped ? 1 : 0,
     transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
     config: { mass: 5, tension: 500, friction: 80 }
+  });
+
+  React.useEffect(() => {
+    fetch("http://localhost:4000/cardsets")
+      .then(response => response.json())
+      .then(cardsets => props.getCardsets(cardsets));
   });
 
   const handleSetup = () => {

@@ -130,3 +130,9 @@ export const swapSides = (state, action) => {
     }
   };
 };
+
+export const getCardsets = cardsets => {
+  for (let i = 0; cardsets.length; i++) {
+    console.log(cardsets[i]);
+  }
+};
