@@ -15,3 +15,15 @@ export const getNumberOfCards = createSelector(
     }
   }
 );
+
+export const getCurrentCardSetArray = createSelector(
+  [getCards, getCurrentCardSet],
+  (cards, currentCardSet) => {
+    console.log("SELECTOR: ", currentCardSet);
+    if (currentCardSet) {
+      return cards[currentCardSet];
+    } else {
+      return null;
+    }
+  }
+);

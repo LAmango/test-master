@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "@reach/router";
 
 const HeaderContainer = styled.div`
   background-color: rgb(88, 118, 168);
@@ -25,6 +26,9 @@ const Navigation = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 60%;
+  > a {
+    text-decoration: none;
+  }
 `;
 
 const NavItem = styled.div`
@@ -43,9 +47,13 @@ const Header = () => {
           <Logo></Logo>
         </Title>
         <Navigation>
-          <NavItem>Home</NavItem>
+          <Link to="/">
+            <NavItem>Home</NavItem>
+          </Link>
           <NavItem>Classes</NavItem>
-          <NavItem>Card Sets</NavItem>
+          <Link to="card">
+            <NavItem>Card Sets</NavItem>
+          </Link>
         </Navigation>
       </HeaderLayout>
     </HeaderContainer>

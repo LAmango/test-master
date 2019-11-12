@@ -9,15 +9,18 @@ import { CardSelectors, CardActions } from "../card/ducks";
 import { AddBox } from "@material-ui/icons";
 
 const mapStateToProps = ({ card }) => ({
-  card,
   currentCard: CardSelectors.getCurrentCard(card),
   currentCardSet: CardSelectors.getCurrentCardSet(card),
-  numberOfCards: CardSelectors.getNumberOfCards(card)
+  numberOfCards: CardSelectors.getNumberOfCards(card),
+  currentCardsSetArray: CardSelectors.getCurrentCardSetArray(card)
 });
 
 const actions = {
   addCard: CardActions.addCard,
-  updateCard: CardActions.updateCard
+  nextCard: CardActions.nextCard,
+  updateCard: CardActions.updateCard,
+  deleteCardItem: CardActions.deleteCardItem,
+  swapSides: CardActions.swapSides
 };
 
 const enhance = compose(
@@ -39,22 +42,33 @@ const AddContainer = styled.div`
 `;
 
 function ListContainer(props) {
-  const { cards } = props.card;
+  console.log("LIST CONTAINER REDRAWN ", props.currentCardsSetArray);
+
+  const deleteCardItem = id => {
+    props.deleteCardItem(id);
+  };
+
+  const ItemList = props.currentCardsSetArray
+    ? props.currentCardsSetArray.map(card => {
+        return (
+          <List
+            key={card.id}
+            id={card.id}
+            front={card.front}
+            back={card.back}
+            update={props.updateCard}
+            delete={deleteCardItem}
+            swap={props.swapSides}
+          />
+        );
+      })
+    : null;
+
   return (
     <Container>
       {props.currentCardSet && (
         <Paper className="list-paper">
-          {Object.keys(cards[props.currentCardSet]).map(index => {
-            return (
-              <List
-                key={index}
-                id={index}
-                front={cards[props.currentCardSet][index].front}
-                back={cards[props.currentCardSet][index].back}
-                update={props.updateCard}
-              />
-            );
-          })}
+          {ItemList}
           <AddContainer>
             <IconButton className="list-plus" onClick={props.addCard}>
               <AddBox />

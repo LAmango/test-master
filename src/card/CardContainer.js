@@ -75,10 +75,15 @@ function CardContainer(props) {
     transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
     config: { mass: 5, tension: 500, friction: 80 }
   });
+
   const handleSetup = () => {
     props.setCards("colors");
-    document.addEventListener("keydown", function(event) {
+    window.addEventListener("keyup", function(event) {
+      console.log(event.keyCode);
       switch (event.keyCode) {
+        case 32:
+          set(state => !state);
+          break;
         case 39:
           props.nextCard();
           break;
@@ -90,6 +95,7 @@ function CardContainer(props) {
       }
     });
   };
+
   return (
     <Layout>
       <Container onClick={() => set(state => !state)}>
@@ -101,7 +107,7 @@ function CardContainer(props) {
             <Card
               cardSet={props.currentCardSet}
               total={props.numberOfCards}
-              current={props.currentCard.id}
+              current={props.currentCard.index + 1}
               side={props.card.currentCard.front}
             />
           </Paper>

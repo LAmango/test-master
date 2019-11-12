@@ -31,3 +31,16 @@ export function updateCard(card, side, content) {
     payload: { card: card, side: side, content: content }
   };
 }
+
+export function deleteCardItem(itemId) {
+  return {
+    type: types.DELETE_CARD_ITEM,
+    payload: { itemId: itemId }
+  };
+}
+export function swapSides(itemId, front, back) {
+  return {
+    type: types.SWAP_SIDES,
+    payload: { itemId: itemId, front: front, back: back }
+  };
+}
