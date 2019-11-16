@@ -1,19 +1,21 @@
 import * as types from "./types";
 
-export function getCards() {
+export function fetchCardsPending() {
   return {
     type: types.FETCH_CARDS_PENDING
   };
 }
 
-export function getUsers() {
+export function fetchCardsSuccess(cards) {
   return {
-    type: types.FETCH_CARDS_PENDING
+    type: types.FETCH_CARDS_SUCCESS,
+    cards: cards
   };
 }
 
-export function getClasses() {
+export function fetchCardsError(error) {
   return {
-    type: types.FETCH_CARDS_PENDING
+    type: types.FETCH_CARDS_ERROR,
+    error: error
   };
 }

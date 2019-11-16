@@ -1,17 +1,17 @@
 import { createSelector } from "reselect";
-import card from "./reducers";
 
 export const getCards = state => state.cards;
 export const getCurrentCard = state => state.currentCard;
 export const getCurrentCardSet = state => state.currentCardSet;
+export const getCardsetNames = state => state.allCardSets;
 
 export const getNumberOfCards = createSelector(
   [getCards, getCurrentCardSet],
   (cards, currentCardSet) => {
     if (currentCardSet) {
-      return Object.keys(cards[currentCardSet]).length;
+      return cards[currentCardSet].cards.length;
     } else {
-      return card;
+      return null;
     }
   }
 );
@@ -19,9 +19,8 @@ export const getNumberOfCards = createSelector(
 export const getCurrentCardSetArray = createSelector(
   [getCards, getCurrentCardSet],
   (cards, currentCardSet) => {
-    console.log("SELECTOR: ", currentCardSet);
     if (currentCardSet) {
-      return cards[currentCardSet];
+      return cards[currentCardSet].cards;
     } else {
       return null;
     }

@@ -6,3 +6,4 @@ export const UPDATE_CARD = "card/UPDATE_CARD";
 export const SWAP_SIDES = "card/SWAP_SIDES";
 export const DELETE_CARD_ITEM = "card/DELETE_CARD_ITEM";
 export const GET_CARDSETS = "card/GET_CARDSETS";
+export const SET_ALL_CARDSETS = "card/SET_ALL_CARDSETS";

@@ -2,10 +2,10 @@ import * as types from "./types";
 import * as ops from "./operations";
 
 export const initialState = {
-  currentCard: { index: 0, id: 0, front: "", back: "" },
+  currentCard: null,
   currentCardSet: null,
   cards: {},
-  allCardSet: []
+  allCardSets: []
 };
 
 export function card(state = initialState, action) {
@@ -17,13 +17,18 @@ export function card(state = initialState, action) {
     case types.PREV_CARD:
       return ops.prevCard(state);
     case types.ADD_CARD:
-      return ops.addCard(state);
+      return ops.addCard(state, action);
     case types.UPDATE_CARD:
       return ops.updateCard(state, action.payload);
     case types.SWAP_SIDES:
       return ops.swapSides(state, action.payload);
     case types.DELETE_CARD_ITEM:
-      return ops.deleteCardItem(state, action.payload);
+      return ops.deleteCardItem(state, action);
+    case types.SET_ALL_CARDSETS:
+      return {
+        ...state,
+        allCardSets: action.payload
+      };
     case types.GET_CARDSETS:
       return {
         ...state,

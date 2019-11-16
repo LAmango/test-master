@@ -3,7 +3,7 @@ import * as types from "./types";
 export function setCards(card) {
   return {
     type: types.SET_CARDS,
-    card: card
+    payload: card
   };
 }
 
@@ -19,9 +19,10 @@ export function prevCard() {
   };
 }
 
-export function addCard() {
+export function addCard(newCard) {
   return {
-    type: types.ADD_CARD
+    type: types.ADD_CARD,
+    payload: newCard
   };
 }
 
@@ -35,7 +36,7 @@ export function updateCard(card, side, content) {
 export function deleteCardItem(itemId) {
   return {
     type: types.DELETE_CARD_ITEM,
-    payload: { itemId: itemId }
+    payload: itemId
   };
 }
 export function swapSides(itemId, front, back) {
@@ -48,6 +49,13 @@ export function swapSides(itemId, front, back) {
 export function getCardsets(cardsets) {
   return {
     type: types.GET_CARDSETS,
+    payload: cardsets
+  };
+}
+
+export function setAllCardsets(cardsets) {
+  return {
+    type: types.SET_ALL_CARDSETS,
     payload: cardsets
   };
 }

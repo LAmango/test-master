@@ -18,14 +18,13 @@ const mapStateToProps = ({ card }) => ({
   card,
   currentCard: CardSelectors.getCurrentCard(card),
   currentCardSet: CardSelectors.getCurrentCardSet(card),
-  numberOfCards: CardSelectors.getNumberOfCards(card)
+  numberOfCards: CardSelectors.getNumberOfCards(card),
+  currentCardSetArray: CardSelectors.getCurrentCardSetArray(card)
 });
 
 const actions = {
-  setCards: CardActions.setCards,
   nextCard: CardActions.nextCard,
-  prevCard: CardActions.prevCard,
-  getCardsets: CardActions.getCardsets
+  prevCard: CardActions.prevCard
 };
 
 const enhance = compose(
@@ -77,14 +76,7 @@ function CardContainer(props) {
     config: { mass: 5, tension: 500, friction: 80 }
   });
 
-  React.useEffect(() => {
-    fetch("http://localhost:4000/cardsets")
-      .then(response => response.json())
-      .then(cardsets => props.getCardsets(cardsets));
-  }, []);
-
   const handleSetup = () => {
-    props.setCards("colors");
     window.addEventListener("keyup", function(event) {
       console.log(event.keyCode);
       switch (event.keyCode) {
@@ -105,54 +97,55 @@ function CardContainer(props) {
 
   return (
     <Layout>
-      <Container onClick={() => set(state => !state)}>
-        <a.div
-          className="flip"
-          style={{ opacity: opacity.interpolate(o => 1 - o), transform }}
-        >
-          <Paper className="paper">
-            <Card
-              cardSet={props.currentCardSet}
-              total={props.numberOfCards}
-              current={props.currentCard.index + 1}
-              side={props.card.currentCard.front}
-            />
-          </Paper>
-        </a.div>
+      {props.currentCardSet && (
+        <>
+          <Container onClick={() => set(state => !state)}>
+            <a.div
+              className="flip"
+              style={{ opacity: opacity.interpolate(o => 1 - o), transform }}
+            >
+              <Paper className="paper">
+                <Card
+                  cardSet={props.currentCardSet}
+                  total={props.numberOfCards}
+                  current={props.currentCard + 1}
+                  side={props.currentCardSetArray[props.currentCard].front}
+                />
+              </Paper>
+            </a.div>
 
-        <a.div
-          className="flip"
-          style={{
-            opacity,
-            transform: transform.interpolate(t => `${t} rotateX(180deg)`)
-          }}
-        >
-          <Paper className="paper">
-            <Card
-              cardSet={props.currentCardSet}
-              total={props.numberOfCards}
-              current={props.currentCard.id}
-              side={props.card.currentCard.back}
-            />
-          </Paper>
-        </a.div>
-      </Container>
+            <a.div
+              className="flip"
+              style={{
+                opacity,
+                transform: transform.interpolate(t => `${t} rotateX(180deg)`)
+              }}
+            >
+              <Paper className="paper">
+                <Card
+                  cardSet={props.currentCardSet}
+                  total={props.numberOfCards}
+                  current={props.currentCard + 1}
+                  side={props.currentCardSetArray[props.currentCard].back}
+                />
+              </Paper>
+            </a.div>
+          </Container>
 
-      <CardButtons>
-        <CardButton className="btn" onClick={handleSetup}>
-          Set Cards
-        </CardButton>
-        {props.currentCardSet && (
-          <>
-            <CardButton className="btn" onClick={() => props.prevCard()}>
-              Previous
-            </CardButton>
-            <CardButton className="btn" onClick={() => props.nextCard()}>
-              Next
-            </CardButton>
-          </>
-        )}
-      </CardButtons>
+          <CardButtons>
+            {props.currentCardSet && (
+              <>
+                <CardButton className="btn" onClick={() => props.prevCard()}>
+                  Previous
+                </CardButton>
+                <CardButton className="btn" onClick={() => props.nextCard()}>
+                  Next
+                </CardButton>
+              </>
+            )}
+          </CardButtons>
+        </>
+      )}
     </Layout>
   );
 }

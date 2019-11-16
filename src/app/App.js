@@ -1,6 +1,8 @@
 import React from "react";
+import { Grid } from "@material-ui/core";
 import CardContainer from "../card/CardContainer";
 import ListContainer from "../list/ListContainer";
+import CourseContainer from "../course/CourseContainer";
 import { Provider } from "react-redux";
 import storeConfig from "../store";
 import Header from "../common/Header";
@@ -12,7 +14,7 @@ if (persistedState) {
   initialState = JSON.parse(persistedState);
 }
 
-const store = storeConfig(initialState);
+const store = storeConfig();
 
 store.subscribe(() => {
   localStorage.setItem("reduxState", JSON.stringify(store.getState()));
@@ -40,7 +42,14 @@ let About = () => <div>About</div>;
 
 const Card = () => (
   <>
-    <CardContainer />
-    <ListContainer />
+    <Grid container spacing={0} justify="center">
+      <Grid item>
+        <CourseContainer />
+      </Grid>
+      <Grid item>
+        <CardContainer />
+        <ListContainer />
+      </Grid>
+    </Grid>
   </>
 );

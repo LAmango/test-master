@@ -6,27 +6,33 @@ import List from "./List";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { CardSelectors, CardActions } from "../card/ducks";
+import { addCard, deleteCard, updateCard } from "../api/operations";
 import { AddBox } from "@material-ui/icons";
 
 const mapStateToProps = ({ card }) => ({
+  card,
   currentCard: CardSelectors.getCurrentCard(card),
-  currentCardSet: CardSelectors.getCurrentCardSet(card),
-  numberOfCards: CardSelectors.getNumberOfCards(card),
-  currentCardsSetArray: CardSelectors.getCurrentCardSetArray(card)
+  currentCardsSetArray: CardSelectors.getCurrentCardSetArray(card),
+  currentCardSet: CardSelectors.getCurrentCardSet(card)
 });
 
-const actions = {
-  addCard: CardActions.addCard,
-  nextCard: CardActions.nextCard,
-  updateCard: CardActions.updateCard,
-  deleteCardItem: CardActions.deleteCardItem,
-  swapSides: CardActions.swapSides
+const mapDispatchToProps = dispatch => {
+  return {
+    addCard: currentCardSet => dispatch(addCard(currentCardSet)),
+    updateCard: (cardsetId, cardId, side, content) =>
+      dispatch(updateCard(cardsetId, cardId, side, content)),
+    deleteCard: (currentCardSet, id) => {
+      dispatch(deleteCard(currentCardSet, id));
+    },
+    swapSides: (id, front, back) =>
+      dispatch(CardActions.swapSides(id, front, back))
+  };
 };
 
 const enhance = compose(
   connect(
     mapStateToProps,
-    actions
+    mapDispatchToProps
   )
 );
 
@@ -45,18 +51,27 @@ function ListContainer(props) {
   console.log("LIST CONTAINER REDRAWN ", props.currentCardsSetArray);
 
   const deleteCardItem = id => {
-    props.deleteCardItem(id);
+    props.deleteCard(props.card.cards[props.currentCardSet], id);
   };
 
-  const ItemList = props.currentCardsSetArray
+  const updateCardItem = (cardId, side, content) => {
+    props.updateCard(
+      props.card.cards[props.currentCardSet].id,
+      cardId,
+      side,
+      content
+    );
+  };
+
+  const ItemList = props.currentCardSet
     ? props.currentCardsSetArray.map(card => {
         return (
           <List
-            key={card.id}
-            id={card.id}
+            key={card._id}
+            id={card._id}
             front={card.front}
             back={card.back}
-            update={props.updateCard}
+            update={updateCardItem}
             delete={deleteCardItem}
             swap={props.swapSides}
           />
@@ -66,16 +81,19 @@ function ListContainer(props) {
 
   return (
     <Container>
-      {props.currentCardSet && (
-        <Paper className="list-paper">
-          {ItemList}
-          <AddContainer>
-            <IconButton className="list-plus" onClick={props.addCard}>
-              <AddBox />
-            </IconButton>
-          </AddContainer>
-        </Paper>
-      )}
+      <Paper className="list-paper">
+        {ItemList}
+        <AddContainer>
+          <IconButton
+            className="list-plus"
+            onClick={() =>
+              props.addCard(props.card.cards[props.currentCardSet])
+            }
+          >
+            <AddBox />
+          </IconButton>
+        </AddContainer>
+      </Paper>
     </Container>
   );
 }

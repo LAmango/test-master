@@ -3,20 +3,6 @@ import "./List.scss";
 import styled from "styled-components";
 import { DeleteOutline, InfoOutlined, SwapHoriz } from "@material-ui/icons";
 import { Paper, Grid, TextField, IconButton, Zoom } from "@material-ui/core";
-import { compose } from "redux";
-import { connect } from "react-redux";
-import { CardSelectors } from "../card/ducks";
-
-const mapStateToProps = ({ card }) => ({
-  currentCard: CardSelectors.getCurrentCard(card)
-});
-
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    null
-  )
-);
 
 const ButtonContainer = styled(Paper)`
   position: absolute !important;
@@ -48,7 +34,7 @@ class List extends React.Component {
     this.timeout = setTimeout(() => {
       const { id } = this.props;
       this.props.update(id, "front", this.state.front);
-    }, 750);
+    }, 1000);
   };
 
   swapItems = (id, front, back) => {
@@ -76,7 +62,7 @@ class List extends React.Component {
     this.timeout = setTimeout(() => {
       const { id } = this.props;
       this.props.update(id, "back", this.state.back);
-    }, 750);
+    }, 1000);
   };
 
   render() {
@@ -95,6 +81,8 @@ class List extends React.Component {
             <Grid item xs>
               <TextField
                 fullWidth
+                multiline
+                rowsMax="4"
                 id="front"
                 label="front"
                 onChange={this.handleFront}
@@ -104,6 +92,8 @@ class List extends React.Component {
             <Grid item xs>
               <TextField
                 fullWidth
+                multiline
+                rowsMax="4"
                 id="back"
                 label="back"
                 onChange={this.handleBack}
@@ -130,4 +120,4 @@ class List extends React.Component {
   }
 }
 
-export default enhance(List);
+export default List;
