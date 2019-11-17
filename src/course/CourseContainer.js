@@ -8,8 +8,8 @@ import { fetchCards } from "../api/operations";
 import { CardSelectors, CardActions } from "../card/ducks";
 
 const mapStateToProps = ({ card }) => ({
-  card,
-  cardsets: CardSelectors.getCardsetNames(card)
+  cardsets: CardSelectors.getCardsetNames(card),
+  currentCardSet: CardSelectors.getCurrentCardSet(card)
 });
 
 const mapDispatchToProps = dispatch => {
@@ -37,6 +37,7 @@ class CourseContainer extends React.Component {
   }
 
   render() {
+    console.log(this.props.currentCardSet);
     const courses =
       this.props.cardsets.length > 1
         ? this.props.cardsets.map(cardset => {
@@ -45,6 +46,7 @@ class CourseContainer extends React.Component {
                 key={cardset}
                 onClick={() => this.props.setCards(cardset)}
                 primary={cardset}
+                active={cardset === this.props.currentCardSet}
               />
             );
           })
