@@ -20,7 +20,7 @@ export const nextCard = (state, action) => {
 
 export const prevCard = (state, action) => {
   const cardSetLength = select.getNumberOfCards(state);
-  const prevTemp = state.currentCard.index - 1;
+  const prevTemp = state.currentCard - 1;
   const prev = prevTemp < 0 ? cardSetLength - 1 : prevTemp;
   return {
     ...state,

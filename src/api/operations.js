@@ -1,5 +1,6 @@
 import * as actions from "./actions";
 import { CardActions } from "../card/ducks";
+import { CardsetActions } from "../cardset/ducks";
 
 export const fetchCards = () => {
   return dispatch => {
@@ -81,5 +82,25 @@ export const updateCard = (cardsetId, cardId, side, content) => {
       method: "put",
       body: JSON.stringify(body)
     }).then(dispatch(CardActions.updateCard(cardId, side, content)));
+  };
+};
+
+export const addCardset = name => {
+  return dispatch => {
+    const url = "http://localhost:4000/cardsets";
+
+    const body = { name: name };
+
+    fetch(url, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      method: "post",
+      body: JSON.stringify(body)
+    })
+      .then(res => res.json())
+      .then(cardset => dispatch(CardActions.addCardset(name, cardset)))
+      .catch(err => console.log(err));
   };
 };

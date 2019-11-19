@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import { makeStyles } from "@material-ui/styles";
 import { Paper, IconButton } from "@material-ui/core";
 import "./List.scss";
 import List from "./List";
@@ -36,16 +36,17 @@ const enhance = compose(
   )
 );
 
-const Container = styled.div`
-  margin: auto;
-  width: 800px;
-  padding: 15px 0;
-`;
-
-const AddContainer = styled.div`
-  display: flex;
-  padding-top: inherit;
-`;
+const useStyles = makeStyles(theme => ({
+  container: {
+    margin: "auto",
+    width: 800,
+    padding: "15px 0"
+  },
+  addContainer: {
+    display: "flex",
+    paddingTop: "inherit"
+  }
+}));
 
 function ListContainer(props) {
   console.log("LIST CONTAINER REDRAWN ", props.currentCardsSetArray);
@@ -79,22 +80,25 @@ function ListContainer(props) {
       })
     : null;
 
+  const classes = useStyles();
   return (
-    <Container>
-      <Paper className="list-paper">
-        {ItemList}
-        <AddContainer>
-          <IconButton
-            className="list-plus"
-            onClick={() =>
-              props.addCard(props.card.cards[props.currentCardSet])
-            }
-          >
-            <AddBox />
-          </IconButton>
-        </AddContainer>
-      </Paper>
-    </Container>
+    <div className={classes.container}>
+      {props.currentCardSet ? (
+        <Paper className="list-paper">
+          {ItemList}
+          <div className={classes.addContainer}>
+            <IconButton
+              className="list-plus"
+              onClick={() =>
+                props.addCard(props.card.cards[props.currentCardSet])
+              }
+            >
+              <AddBox />
+            </IconButton>
+          </div>
+        </Paper>
+      ) : null}
+    </div>
   );
 }
 

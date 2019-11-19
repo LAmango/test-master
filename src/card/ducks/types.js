@@ -7,3 +7,6 @@ export const SWAP_SIDES = "card/SWAP_SIDES";
 export const DELETE_CARD_ITEM = "card/DELETE_CARD_ITEM";
 export const GET_CARDSETS = "card/GET_CARDSETS";
 export const SET_ALL_CARDSETS = "card/SET_ALL_CARDSETS";
+export const ADD_CARDSET = "cardset/ADD_CARDSET";
+export const DELETE_CARDSET = "cardset/DELETE_CARDSET";
+export const EDIT_CARDSET = "cardset/EDIT_COURSE";

@@ -34,6 +34,28 @@ export function card(state = initialState, action) {
         ...state,
         cards: action.payload
       };
+    case types.ADD_CARDSET:
+      return {
+        ...state,
+        allCardSets: state.allCardSets.concat(action.payload[0]),
+        cards: action.payload[1]
+      };
+    case types.DELETE_CARDSET:
+      return {
+        ...state,
+        currentCardset: null,
+        allCardSets: state.allCardSets.filter(
+          cardset => cardset !== action.payload
+        )
+      };
+    case types.EDIT_CARDSET:
+      return {
+        ...state,
+        currentCardset: action.payload,
+        allCardSets: state.allCardSets.map(cardset =>
+          cardset === action.payload[0] ? action.payload[1] : cardset
+        )
+      };
     default:
       return state;
   }

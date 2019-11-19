@@ -59,3 +59,17 @@ export function setAllCardsets(cardsets) {
     payload: cardsets
   };
 }
+
+export function addCardset(name, cardsets) {
+  return {
+    type: types.ADD_CARDSET,
+    payload: [name, cardsets]
+  };
+}
+
+export function deleteCardset(name) {
+  return {
+    type: types.DELETE_CARDSET,
+    payload: name
+  };
+}
