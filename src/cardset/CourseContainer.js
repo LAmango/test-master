@@ -4,12 +4,13 @@ import Course from "./Course";
 import List from "@material-ui/core/List";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { fetchCards, addCardset } from "../api/operations";
+import { fetchCards, addCardset, deleteCardset } from "../api/operations";
 import { CardSelectors, CardActions } from "../card/ducks";
 import { AddBox } from "@material-ui/icons";
 import { IconButton, TextField, ListItem } from "@material-ui/core";
 
 const mapStateToProps = ({ card }) => ({
+  cards: CardSelectors.getCards(card),
   cardsets: CardSelectors.getCardsetNames(card),
   currentCardSet: CardSelectors.getCurrentCardSet(card)
 });
@@ -18,7 +19,11 @@ const mapDispatchToProps = dispatch => {
   return {
     getCardSets: () => dispatch(fetchCards()),
     addCardset: name => dispatch(addCardset(name)),
-    setCards: name => dispatch(CardActions.setCards(name))
+    setCards: name => dispatch(CardActions.setCards(name)),
+    deleteCardset: cardsetId => dispatch(deleteCardset(cardsetId)),
+    nextCard: () => dispatch(CardActions.nextCard()),
+    prevCard: () => dispatch(CardActions.prevCard()),
+    flipCard: () => dispatch(CardActions.flipCard())
   };
 };
 
@@ -55,6 +60,32 @@ class CourseContainer extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getCardSets();
+    document.addEventListener("keyup", this.handleKeyUp, true);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keyup", this.handleKeyUp, false);
+  }
+
+  handleKeyUp = event => {
+    console.log("key", event.keyCode);
+    switch (event.keyCode) {
+      case 32:
+        this.props.flipCard();
+        break;
+      case 39:
+        this.props.nextCard();
+        break;
+      case 37:
+        this.props.prevCard();
+        break;
+      default:
+        break;
+    }
+  };
+
   preAddCardset() {
     console.log("test");
     this.setState({
@@ -70,9 +101,10 @@ class CourseContainer extends React.Component {
     }
   };
 
-  componentDidMount() {
-    this.props.getCardSets();
-  }
+  deleteCardset = () => {
+    const { currentCardSet, cards } = this.props;
+    this.props.deleteCardset(cards[currentCardSet].id);
+  };
 
   render() {
     const { classes } = this.props;
@@ -86,6 +118,7 @@ class CourseContainer extends React.Component {
                 onClick={() => this.props.setCards(cardset)}
                 primary={cardset}
                 active={cardset === this.props.currentCardSet}
+                deleteCardset={this.deleteCardset}
               />
             );
           })

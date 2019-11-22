@@ -24,7 +24,8 @@ const mapStateToProps = ({ card }) => ({
 
 const actions = {
   nextCard: CardActions.nextCard,
-  prevCard: CardActions.prevCard
+  prevCard: CardActions.prevCard,
+  flipCard: CardActions.flipCard
 };
 
 const enhance = compose(
@@ -69,37 +70,17 @@ const CardButton = styled.button`
 `;
 
 function CardContainer(props) {
-  const [flipped, set] = useState(false);
   const { transform, opacity } = useSpring({
-    opacity: flipped ? 1 : 0,
-    transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
+    opacity: props.card.flipped ? 1 : 0,
+    transform: `perspective(600px) rotateX(${props.card.flipped ? 180 : 0}deg)`,
     config: { mass: 5, tension: 500, friction: 80 }
   });
-
-  const handleSetup = () => {
-    window.addEventListener("keyup", function(event) {
-      console.log(event.keyCode);
-      switch (event.keyCode) {
-        case 32:
-          set(state => !state);
-          break;
-        case 39:
-          props.nextCard();
-          break;
-        case 37:
-          props.prevCard();
-          break;
-        default:
-          break;
-      }
-    });
-  };
 
   return (
     <Layout>
       {props.currentCardSet && (
         <>
-          <Container onClick={() => set(state => !state)}>
+          <Container onClick={props.flipCard}>
             <a.div
               className="flip"
               style={{ opacity: opacity.interpolate(o => 1 - o), transform }}

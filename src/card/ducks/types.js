@@ -10,3 +10,4 @@ export const SET_ALL_CARDSETS = "card/SET_ALL_CARDSETS";
 export const ADD_CARDSET = "cardset/ADD_CARDSET";
 export const DELETE_CARDSET = "cardset/DELETE_CARDSET";
 export const EDIT_CARDSET = "cardset/EDIT_COURSE";
+export const FLIP_CARD = "card/FLIP_CARD"

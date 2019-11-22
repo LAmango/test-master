@@ -1,11 +1,12 @@
 import * as actions from "./actions";
 import { CardActions } from "../card/ducks";
-import { CardsetActions } from "../cardset/ducks";
+
+var base_url = "http://142.93.122.56:4000";
 
 export const fetchCards = () => {
   return dispatch => {
     dispatch(actions.fetchCardsPending());
-    fetch("http://localhost:4000/cardsets")
+    fetch(base_url + "/cardsets")
       .then(res => res.json())
       .then(cardsets => {
         if (cardsets.error) {
@@ -34,7 +35,7 @@ export const fetchCards = () => {
 
 export const addCard = currentCardSet => {
   const newCard = { card: { front: "", back: "" } };
-  const url = "http://localhost:4000/cardsets/";
+  const url = base_url + "/cardsets/";
 
   return dispatch => {
     fetch(url + currentCardSet.id, {
@@ -54,8 +55,7 @@ export const addCard = currentCardSet => {
 
 export const deleteCard = (currentCardSet, cardId) => {
   return dispatch => {
-    const url =
-      "http://localhost:4000/cardsets/" + currentCardSet.id + "/" + cardId;
+    const url = base_url + "/cardsets/" + currentCardSet.id + "/" + cardId;
     const body = { delete: "delete" };
     fetch(url, {
       headers: {
@@ -70,7 +70,7 @@ export const deleteCard = (currentCardSet, cardId) => {
 
 export const updateCard = (cardsetId, cardId, side, content) => {
   return dispatch => {
-    const url = "http://localhost:4000/cardsets/" + cardsetId + "/" + cardId;
+    const url = base_url + "/cardsets/" + cardsetId + "/" + cardId;
 
     const body = { card: { [side]: content } };
 
@@ -87,7 +87,7 @@ export const updateCard = (cardsetId, cardId, side, content) => {
 
 export const addCardset = name => {
   return dispatch => {
-    const url = "http://localhost:4000/cardsets";
+    const url = base_url + "/cardsets";
 
     const body = { name: name };
 
@@ -100,7 +100,27 @@ export const addCardset = name => {
       body: JSON.stringify(body)
     })
       .then(res => res.json())
-      .then(cardset => dispatch(CardActions.addCardset(name, cardset)))
+      .then(cardset =>
+        dispatch(
+          CardActions.addCardset(name, {
+            id: cardset._id,
+            cards: cardset.cards
+          })
+        )
+      )
+      .catch(err => console.log(err));
+  };
+};
+
+export const deleteCardset = cardsetId => {
+  return dispatch => {
+    const url = base_url + "/cardsets/" + cardsetId;
+
+    fetch(url, {
+      method: "delete"
+    })
+      .then(res => res.json())
+      .then(cardset => dispatch(CardActions.deleteCardset(cardset)))
       .catch(err => console.log(err));
   };
 };

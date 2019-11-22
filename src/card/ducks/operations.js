@@ -108,3 +108,16 @@ export const swapSides = (state, action) => {
     }
   };
 };
+
+export const deleteCardset = (state, action) => {
+  const { [action.payload.name]: deleted, ...updateCardsets } = state.cards;
+
+  return {
+    ...state,
+    cards: updateCardsets,
+    currentCardSet: null,
+    allCardSets: state.allCardSets.filter(
+      cardset => cardset !== action.payload.name
+    )
+  };
+};

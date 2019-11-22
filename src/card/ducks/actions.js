@@ -73,3 +73,9 @@ export function deleteCardset(name) {
     payload: name
   };
 }
+
+export function flipCard() {
+  return {
+    type: types.FLIP_CARD
+  };
+}

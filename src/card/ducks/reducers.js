@@ -5,7 +5,8 @@ export const initialState = {
   currentCard: null,
   currentCardSet: null,
   cards: {},
-  allCardSets: []
+  allCardSets: [],
+  flipped: false
 };
 
 export function card(state = initialState, action) {
@@ -37,24 +38,28 @@ export function card(state = initialState, action) {
     case types.ADD_CARDSET:
       return {
         ...state,
+        currentCardSet: action.payload[0],
+        currentCard: 0,
         allCardSets: state.allCardSets.concat(action.payload[0]),
-        cards: action.payload[1]
+        cards: {
+          ...state.cards,
+          [action.payload[0]]: action.payload[1]
+        }
       };
     case types.DELETE_CARDSET:
-      return {
-        ...state,
-        currentCardset: null,
-        allCardSets: state.allCardSets.filter(
-          cardset => cardset !== action.payload
-        )
-      };
+      return ops.deleteCardset(state, action);
     case types.EDIT_CARDSET:
       return {
         ...state,
-        currentCardset: action.payload,
+        currentCardSet: action.payload,
         allCardSets: state.allCardSets.map(cardset =>
           cardset === action.payload[0] ? action.payload[1] : cardset
         )
+      };
+    case types.FLIP_CARD:
+      return {
+        ...state,
+        flipped: !state.flipped
       };
     default:
       return state;
