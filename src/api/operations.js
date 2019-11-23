@@ -6,7 +6,9 @@ var base_url = "http://142.93.122.56:4000";
 export const fetchCards = () => {
   return dispatch => {
     dispatch(actions.fetchCardsPending());
-    fetch(base_url + "/cardsets")
+    fetch(base_url + "/cardsets", {
+      mode: "cors"
+    })
       .then(res => res.json())
       .then(cardsets => {
         if (cardsets.error) {
@@ -39,6 +41,7 @@ export const addCard = currentCardSet => {
 
   return dispatch => {
     fetch(url + currentCardSet.id, {
+      mode: "cors",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -58,6 +61,7 @@ export const deleteCard = (currentCardSet, cardId) => {
     const url = base_url + "/cardsets/" + currentCardSet.id + "/" + cardId;
     const body = { delete: "delete" };
     fetch(url, {
+      mode: "cors",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -75,6 +79,7 @@ export const updateCard = (cardsetId, cardId, side, content) => {
     const body = { card: { [side]: content } };
 
     fetch(url, {
+      mode: "cors",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -92,6 +97,7 @@ export const addCardset = name => {
     const body = { name: name };
 
     fetch(url, {
+      mode: "cors",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -117,6 +123,7 @@ export const deleteCardset = cardsetId => {
     const url = base_url + "/cardsets/" + cardsetId;
 
     fetch(url, {
+      mode: "cors",
       method: "delete"
     })
       .then(res => res.json())
