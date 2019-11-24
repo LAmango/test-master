@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "@reach/router";
+import { Logo } from "../assests/logo.svg";
 
 const userStyles = makeStyles(theme => ({
   headerContainer: {
@@ -46,7 +47,9 @@ const Header = () => {
     <div className={classes.headerContainer}>
       <div className={classes.headerLayout}>
         <div className={classes.title}>
-          <div className={classes.logo}>TestMaster</div>
+          <div className={classes.logo}>
+            <Logo />
+          </div>
         </div>
         <div className={classes.navigation}>
           <Link to="/">
