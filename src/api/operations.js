@@ -1,7 +1,7 @@
 import * as actions from "./actions";
 import { CardActions } from "../card/ducks";
 
-var base_url = "http://142.93.122.56:4000";
+var base_url = "http://localhost:4000";
 
 export const fetchCards = () => {
   return dispatch => {
