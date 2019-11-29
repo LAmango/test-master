@@ -6,7 +6,7 @@ import List from "./List";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { CardSelectors, CardActions } from "../card/ducks";
-import { addCard, deleteCard, updateCard } from "../api/operations";
+import { addCard, deleteCard, updateCard } from "../api/actions";
 import { AddBox } from "@material-ui/icons";
 
 const mapStateToProps = ({ card }) => ({
@@ -18,11 +18,11 @@ const mapStateToProps = ({ card }) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    addCard: currentCardSet => dispatch(addCard(currentCardSet)),
+    addCard: cardsetId => dispatch(addCard(cardsetId)),
     updateCard: (cardsetId, cardId, side, content) =>
       dispatch(updateCard(cardsetId, cardId, side, content)),
-    deleteCard: (currentCardSet, id) => {
-      dispatch(deleteCard(currentCardSet, id));
+    deleteCard: (cardsetId, id) => {
+      dispatch(deleteCard(cardsetId, id));
     },
     swapSides: (id, front, back) =>
       dispatch(CardActions.swapSides(id, front, back))
@@ -52,7 +52,7 @@ function ListContainer(props) {
   console.log("LIST CONTAINER REDRAWN ", props.currentCardsSetArray);
 
   const deleteCardItem = id => {
-    props.deleteCard(props.card.cards[props.currentCardSet], id);
+    props.deleteCard(props.card.cards[props.currentCardSet].id, id);
   };
 
   const updateCardItem = (cardId, side, content) => {
@@ -90,7 +90,7 @@ function ListContainer(props) {
             <IconButton
               className="list-plus"
               onClick={() =>
-                props.addCard(props.card.cards[props.currentCardSet])
+                props.addCard(props.card.cards[props.currentCardSet].id)
               }
             >
               <AddBox />

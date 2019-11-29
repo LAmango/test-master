@@ -1,5 +1,5 @@
 // React and others
-import React, { useState } from "react";
+import React from "react";
 import { useSpring, animated as a } from "react-spring";
 // Styles and Props
 import styled from "styled-components";

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "@reach/router";
-import { Logo } from "../assests/logo.svg";
+import Logo from "../assets/logo.svg";
 
 const userStyles = makeStyles(theme => ({
   headerContainer: {
@@ -41,24 +41,38 @@ const userStyles = makeStyles(theme => ({
   }
 }));
 
-const Header = () => {
+const Header = props => {
   const classes = userStyles();
   return (
     <div className={classes.headerContainer}>
       <div className={classes.headerLayout}>
         <div className={classes.title}>
           <div className={classes.logo}>
-            <Logo />
+            <img src={Logo} alt="Test Master Logo" />
           </div>
         </div>
         <div className={classes.navigation}>
           <Link to="/">
             <div className={classes.navItem}>Home</div>
           </Link>
-          <div className={classes.navItem}>Class</div>
-          <Link to="card">
-            <div className={classes.navItem}>Card Sets</div>
+          <Link to="services">
+            <div className={classes.navItem}>Services</div>
           </Link>
+          <Link to="about">
+            <div className={classes.navItem}>About</div>
+          </Link>
+          <Link to="contact">
+            <div className={classes.navItem}>Contact</div>
+          </Link>
+          {props.user ? (
+            <Link to="profile">
+              <div className={classes.navItem}>Profile</div>
+            </Link>
+          ) : (
+            <Link to="card">
+              <div className={classes.navItem}>Login</div>
+            </Link>
+          )}
         </div>
       </div>
     </div>

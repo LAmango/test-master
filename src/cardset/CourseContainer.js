@@ -4,7 +4,7 @@ import Course from "./Course";
 import List from "@material-ui/core/List";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { fetchCards, addCardset, deleteCardset } from "../api/operations";
+import { fetchCards, addCardset, deleteCardset } from "../api/actions";
 import { CardSelectors, CardActions } from "../card/ducks";
 import { AddBox } from "@material-ui/icons";
 import { IconButton, TextField, ListItem } from "@material-ui/core";
