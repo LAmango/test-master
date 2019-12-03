@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.5.1",
     "@reach/router": "^1.2.1",
     "concurrently": "^5.0.0",
+    "google-map-react": "^1.1.5",
     "material-table": "^1.54.1",
     "node-sass": "^4.13.0",
     "react": "^16.9.0",

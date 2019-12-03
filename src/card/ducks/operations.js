@@ -45,8 +45,6 @@ export const addCard = (state, action) => {
 
 export const updateCard = (state, action) => {
   const currentCardSet = select.getCurrentCardSet(state);
-  const currentCard = select.getCurrentCard(state);
-  const currentCardsSetArray = select.getCurrentCardSetArray(state);
   if (currentCardSet === null) {
     return state;
   }

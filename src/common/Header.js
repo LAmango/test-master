@@ -52,10 +52,16 @@ const Header = props => {
           </div>
         </div>
         <div className={classes.navigation}>
-          <Link to="/">
-            <div className={classes.navItem}>Home</div>
-          </Link>
-          <Link to="services">
+          {props.user ? (
+            <Link to="/card">
+              <div className={classes.navItem}>Home</div>
+            </Link>
+          ) : (
+            <Link to="/">
+              <div className={classes.navItem}>Home</div>
+            </Link>
+          )}
+          <Link to="service">
             <div className={classes.navItem}>Services</div>
           </Link>
           <Link to="about">
@@ -69,7 +75,7 @@ const Header = props => {
               <div className={classes.navItem}>Profile</div>
             </Link>
           ) : (
-            <Link to="card">
+            <Link to="/login">
               <div className={classes.navItem}>Login</div>
             </Link>
           )}

@@ -61,7 +61,6 @@ class CourseContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getCardSets();
     document.addEventListener("keyup", this.handleKeyUp, true);
   }
 
@@ -109,20 +108,19 @@ class CourseContainer extends React.Component {
   render() {
     const { classes } = this.props;
     console.log(this.props.currentCardSet);
-    const courses =
-      this.props.cardsets.length > 1
-        ? this.props.cardsets.map(cardset => {
-            return (
-              <Course
-                key={cardset}
-                onClick={() => this.props.setCards(cardset)}
-                primary={cardset}
-                active={cardset === this.props.currentCardSet}
-                deleteCardset={this.deleteCardset}
-              />
-            );
-          })
-        : null;
+    const courses = this.props.cardsets.length
+      ? this.props.cardsets.map(cardset => {
+          return (
+            <Course
+              key={cardset}
+              onClick={() => this.props.setCards(cardset)}
+              primary={cardset}
+              active={cardset === this.props.currentCardSet}
+              deleteCardset={this.deleteCardset}
+            />
+          );
+        })
+      : null;
     return (
       <div className={classes.courseList}>
         <h2 className={classes.courseHeader}>Courses</h2>

@@ -75,7 +75,6 @@ function CardContainer(props) {
     transform: `perspective(600px) rotateX(${props.card.flipped ? 180 : 0}deg)`,
     config: { mass: 5, tension: 500, friction: 80 }
   });
-
   return (
     <Layout>
       {props.currentCardSet && (

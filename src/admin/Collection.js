@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { Grid, Paper, TextField } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import MaterialTable from "material-table";
 import AddBox from "@material-ui/icons/AddBox";
@@ -65,7 +65,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Collections = ({
-  handleAdd,
+  update,
+  del,
+  add,
   cardsetChosen,
   chosen,
   title,
@@ -93,32 +95,6 @@ const Collections = ({
       )
     : null;
 
-  /*const chosenList = chosen
-    ? Object.keys(chosen).map(item => {
-        return (
-          <Paper key={item} className={classes.paper}>
-            {Object.keys(chosen[item]).map(key => {
-              return (
-                <>
-                  <TextField
-                    className={classes.input}
-                    key={key}
-                    label={key}
-                    value={chosen[item][key]}
-                    variant="outlined"
-                    multiline
-                    fullWidth
-                    rowsMax="4"
-                  />
-                  <br />
-                </>
-              );
-            })}
-          </Paper>
-        );
-      })
-    : null;*/
-
   return (
     <Grid item xs={9}>
       <h2 className={classes.title}>{collectionTitle}</h2>
@@ -128,7 +104,27 @@ const Collections = ({
           title={cardsetChosen ? cardsetChosen : collectionTitle}
           icons={tableIcons}
           editable={{
-            onRowAdd: newData => handleAdd(newData, title, cardsetChosen)
+            onRowAdd: newData =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  add(title, newData);
+                  resolve();
+                }, 1000);
+              }),
+            onRowUpdate: (newData, oldData) =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  update(title, newData);
+                  resolve();
+                }, 1000);
+              }),
+            onRowDelete: oldData =>
+              new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  del(title, oldData);
+                  resolve();
+                }, 1000);
+              })
           }}
           columns={columns}
           data={data}

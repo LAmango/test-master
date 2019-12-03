@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "./static/css/main.3a7fc26c.chunk.css",
+    "main.js": "./static/js/main.1ba62a07.chunk.js",
+    "main.js.map": "./static/js/main.1ba62a07.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.b65053d0.js",
+    "runtime-main.js.map": "./static/js/runtime-main.b65053d0.js.map",
+    "static/css/2.1152a8e1.chunk.css": "./static/css/2.1152a8e1.chunk.css",
+    "static/js/2.201847a5.chunk.js": "./static/js/2.201847a5.chunk.js",
+    "static/js/2.201847a5.chunk.js.map": "./static/js/2.201847a5.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.9c3999912bfa40e5f7ba2876c2de9b33.js": "./precache-manifest.9c3999912bfa40e5f7ba2876c2de9b33.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/2.1152a8e1.chunk.css.map": "./static/css/2.1152a8e1.chunk.css.map",
+    "static/css/main.3a7fc26c.chunk.css.map": "./static/css/main.3a7fc26c.chunk.css.map",
+    "static/media/Lucas-headshot.png": "./static/media/Lucas-headshot.a5b3c80c.png",
+    "static/media/RDJ.png": "./static/media/RDJ.fdf7012b.png",
+    "static/media/einstien.png": "./static/media/einstien.1ca36c16.png",
+    "static/media/logo.svg": "./static/media/logo.422cba5c.svg",
+    "static/media/lucas.png": "./static/media/lucas.eaba7ec4.png",
+    "static/media/slick-theme.css": "./static/media/slick.f97e3bbf.svg",
+    "static/media/student.png": "./static/media/student.673c0200.png",
+    "static/media/study-hero.jpg": "./static/media/study-hero.1663229c.jpg"
+  }
+}

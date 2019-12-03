@@ -3,6 +3,32 @@ import { withStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 import Collections from "../admin/Collection";
 import SideBar from "../admin/SideBar";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { apiActions } from "../api";
+
+const mapStateToProps = ({ users, services, card }) => ({
+  users,
+  services,
+  card
+});
+
+const actions = {
+  getUsers: apiActions.fetchUsers,
+  updateUser: apiActions.updateUser,
+  deleteUser: apiActions.deleteUser,
+  getServices: apiActions.fetchServices,
+  addService: apiActions.addService,
+  updateService: apiActions.updateSerivce,
+  deleteService: apiActions.deleteService
+};
+
+const enhance = compose(
+  connect(
+    mapStateToProps,
+    actions
+  )
+);
 
 const styles = theme => ({
   root: {
@@ -20,39 +46,35 @@ class Admin extends React.Component {
       chosenCollection: null,
       collectionName: null,
       chosenSerializer: null,
-      chosenCardset: null,
-      url: "http://localhost:4000/"
+      chosenCardset: null
     };
   }
-
-  componentDidMount() {
-    fetch(this.state.url + "cardsets")
-      .then(res => res.json())
-      .then(cardsets =>
-        this.setState({
-          cardsets: cardsets
-        })
-      );
-
-    fetch(this.state.url + "services")
-      .then(res => res.json())
-      .then(services =>
-        this.setState({
-          services: services
-        })
-      );
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.services !== null &&
+      this.props.services !== prevProps.services
+    ) {
+      this.handleSelect("services");
+    }
+    if (
+      this.props.users.users !== null &&
+      this.props.users.users !== prevProps.users.users
+    ) {
+      this.handleSelect("users");
+    }
   }
+
   handleSelect = (collection, cardsetName = null) => {
     console.log(collection);
     let serializer, chosenCollection;
     switch (collection) {
       case "services":
         serializer = ["_id", "title", "description"];
-        chosenCollection = this.state.services;
+        chosenCollection = this.props.services;
         break;
       case "users":
-        serializer = ["_id", "email", "school"];
-        chosenCollection = this.state.users;
+        serializer = ["_id", "email", "college"];
+        chosenCollection = this.props.users.users;
         break;
       case "cardsets":
         serializer = ["_id", "front", "back"];
@@ -72,18 +94,46 @@ class Admin extends React.Component {
     });
   };
 
-  handleAdd = (collection, title, cardset = null) => {
-    if (cardset) {
-      //do stuff
-    } else {
-      fetch(this.state.url + "services", {
-        mode: "cors",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        method: "post"
-      });
+  handleUpdate = (collection, content) => {
+    switch (collection) {
+      case "services":
+        this.props.updateService(
+          content._id,
+          content.title,
+          content.description
+        );
+        break;
+      case "users":
+        this.props.updateUser(content._id, {
+          college: content.college,
+          email: content.email
+        });
+        break;
+      default:
+        break;
+    }
+  };
+
+  handleAdd = (collection, content) => {
+    switch (collection) {
+      case "services":
+        this.props.addService(content.title, content.description);
+        break;
+      default:
+        break;
+    }
+  };
+
+  handleDelete = (collection, content) => {
+    switch (collection) {
+      case "services":
+        this.props.deleteService(content._id);
+        break;
+      case "users":
+        this.props.deleteUser(content._id);
+        break;
+      default:
+        break;
     }
   };
   render() {
@@ -99,11 +149,12 @@ class Admin extends React.Component {
           title={this.state.collectionName}
           serializer={this.state.chosenSerializer}
           cardsetChosen={this.state.chosenCardset}
-          handleAdd={this.handleAdd}
+          add={this.handleAdd}
+          update={this.handleUpdate}
+          del={this.handleDelete}
         />
       </Grid>
     );
   }
 }
-
-export default withStyles(styles)(Admin);
+export default enhance(withStyles(styles)(Admin));

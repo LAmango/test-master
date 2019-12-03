@@ -60,3 +60,71 @@ export function deleteCardset(cardsetId) {
     payload: [cardsetId]
   };
 }
+
+export function fetchServices() {
+  return {
+    type: types.FETCH_SERVICES
+  };
+}
+
+export function addService(title, description) {
+  return {
+    type: types.ADD_SERVICE,
+    payload: [title, description]
+  };
+}
+
+export function deleteService(serviceId) {
+  return {
+    type: types.DELETE_SERIVICE,
+    payload: [serviceId]
+  };
+}
+
+export function updateSerivce(serviceId, title, description) {
+  return {
+    type: types.UPDATE_SERVICE,
+    payload: [serviceId, title, description]
+  };
+}
+
+export function login(email, password) {
+  return {
+    type: types.LOGIN,
+    payload: [email, password]
+  };
+}
+
+export function register(email, password) {
+  return {
+    type: types.REGISTER,
+    payload: [email, password]
+  };
+}
+
+export function deleteUser(userId) {
+  return {
+    type: types.DELETE_USER,
+    payload: [userId]
+  };
+}
+
+export function updateUser(userId, user) {
+  return {
+    type: types.UPDATE_USER,
+    payload: [userId, user]
+  };
+}
+
+export function updateCurrentUser(userId, user) {
+  return {
+    type: types.UPDATE_CURRENT_USER,
+    payload: [userId, user]
+  };
+}
+
+export function fetchUsers() {
+  return {
+    type: types.FETCH_USERS
+  };
+}
